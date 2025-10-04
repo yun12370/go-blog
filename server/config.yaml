@@ -7,9 +7,9 @@ captcha:
 email:
     host: smtp.qq.com
     port: 465
-    from: xxx@qq.com
-    nickname: 发件人昵称
-    secret: xxxxxxxxxxxxxxxx
+    from: 3214687220@qq.com
+    nickname: 博客管理者
+    secret: ngucrvtkakotdcih
     is_ssl: true
 es:
     url: http://127.0.0.1:9200
@@ -58,7 +58,7 @@ system:
     env: release
     router_prefix: api
     use_multipoint: true
-    sessions_secret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    sessions_secret: U8Ux62mD5f002tt-UHwOhPuSOlKfqk2ahXPm6GrjX8w=
     oss_type: local
 upload:
     size: 20
