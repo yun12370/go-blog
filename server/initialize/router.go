@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"server/global"
+	"server/middleware"
 	"server/router"
 )
 
@@ -24,8 +25,15 @@ func InitRouter() *gin.Engine {
 	routerGroup := router.RouterGroupApp
 
 	publicGroup := Router.Group(global.Config.System.RouterPrefix)
+	privateGroup := Router.Group(global.Config.System.RouterPrefix)
+	privateGroup.Use(middleware.JWTAuth())
+	adminGroup := Router.Group(global.Config.System.RouterPrefix)
+	adminGroup.Use(middleware.JWTAuth(), middleware.AdminAuth())
 	{
 		routerGroup.InitBaseRouter(publicGroup)
+	}
+	{
+		routerGroup.InitUserRouter(privateGroup, publicGroup, adminGroup)
 	}
 	return Router
 }

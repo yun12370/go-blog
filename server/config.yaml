@@ -45,9 +45,9 @@ qiniu:
     use_cdn_domains: true
 qq:
     enable: false
-    app_id: "000000000"
-    app_key: xxxxxxxxxxxxxxxx
-    redirect_uri: http://xxx.xxx/xxx
+    app_id: "1112394391"
+    app_key: l4dDKvWiYsxSTvUO
+    redirect_uri: http://www.scc749.cn/login?flag=qq
 redis:
     address: 127.0.0.1:6379
     password: ""
