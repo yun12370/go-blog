@@ -243,6 +243,7 @@ func (articleService *ArticleService) ArticleDelete(req request.ArticleDelete) e
 		return nil
 	}
 	return global.DB.Transaction(func(tx *gorm.DB) error {
+		commentService := new(CommentService)
 		for _, id := range req.IDs {
 			articleToDelete, err := articleService.Get(id)
 			if err != nil {
@@ -270,8 +271,23 @@ func (articleService *ArticleService) ArticleDelete(req request.ArticleDelete) e
 			if err := utils.InitImagesCategory(tx, illustrations); err != nil {
 				return err
 			}
-			// TODO 同时删除该文章下的所有评论
+			// 同时删除该文章下的所有评论
+			comments, err := commentService.CommentInfoByArticleID(request.CommentInfoByArticleID{ArticleID: id})
+			if err != nil {
+				return err
+			}
+			// 同时删除该文章下的所有评论
+			comments, err = ServiceGroupApp.CommentService.CommentInfoByArticleID(request.CommentInfoByArticleID{ArticleID: id})
+			if err != nil {
+				return err
+			}
+			for _, comment := range comments {
+				if err := ServiceGroupApp.CommentService.DeleteCommentAndChildren(tx, comment.ID); err != nil {
+					return err
+				}
+			}
 		}
+
 		return articleService.Delete(req.IDs)
 	})
 }
