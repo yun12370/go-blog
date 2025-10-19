@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/mojocn/base64Captcha"
 	"go.uber.org/zap"
@@ -30,6 +31,9 @@ func (baseApi *BaseApi) Captcha(c *gin.Context) {
 
 	// 生成验证码
 	id, b64s, _, err := captcha.Generate()
+
+	code := base64Captcha.DefaultMemStore.Get(id, false)
+	fmt.Printf("验证码ID: %s\n, 答案: %s\n", id, code)
 
 	if err != nil {
 		global.Log.Error("Failed to generate captcha:", zap.Error(err))
